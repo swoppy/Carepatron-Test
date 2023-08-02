@@ -14,6 +14,7 @@ export const StateContext = createContext<{
 
 export const ACTIONS = {
   FETCH_ALL_CLIENTS: "FETCH_ALL_CLIENTS",
+  ATTEMPT_OPTIMISCTIC_CLIENT: "ATTEMPT_OPTIMISCTIC_CLIENT",
 };
 
 type Action = {
@@ -25,6 +26,21 @@ const reducer = (state: IApplicationState, action: Action) => {
   switch (action.type) {
     case ACTIONS.FETCH_ALL_CLIENTS:
       return { ...state, clients: action.data };
+    case ACTIONS.ATTEMPT_OPTIMISCTIC_CLIENT:
+      return {
+        ...state,
+        clients:
+          state.clients.concat(action.data)
+          .sort((a, b) => {
+            if (a.firstName < b.firstName) {
+              return -1;
+            }
+            if (a.firstName > b.firstName) {
+              return 1;
+            }
+            return 0;
+          })
+      }
     default:
       return state;
   }

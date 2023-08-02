@@ -13,13 +13,15 @@ import {
   TextField
 } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form"
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { createClient } from "../../services/api";
+import { StateContext } from "../../store/DataProvider";
 
 type CreateClientFields = {
   firstName: string
   lastName: string
   email: string
-  phoneNumber: number
+  phoneNumber: string
 }
 
 export default function CreateNewClient({ children }: { children?: React.ReactNode }) {
@@ -28,19 +30,27 @@ export default function CreateNewClient({ children }: { children?: React.ReactNo
   const steps = ["Personal details", 'Contact details'];
   const [activeStep, setActiveStep] = useState(0);
 
+  const { dispatch } = useContext(StateContext)
+
   const {
     register,
     handleSubmit,
     watch,
     trigger,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<CreateClientFields>()
 
   const watchFirstName = watch('firstName');
   const watchLastName = watch('lastName');
 
   const handleCreateClient: SubmitHandler<CreateClientFields> = (data) => {
-    console.log('data: ', data)
+    if (isValid) {
+      dispatch({ type: 'ATTEMPT_OPTIMISCTIC_CLIENT', data: { id: 'xxx-xasd', ...data } })
+      createClient({ id: 'xxx-xasd', ...data })
+
+      setOpen(false);
+    }
+    
   }
 
   function handleNext() {
