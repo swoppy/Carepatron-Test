@@ -1,9 +1,10 @@
 import { memo, useContext, useEffect } from "react";
-import { Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { StateContext } from "../../store/DataProvider";
 import Page from "../../components/Page";
 import ClientTable from "./ClientTable";
 import { getClients } from "../../services/api";
+import CreateNewClient from "../../components/Dialog";
 
 function Clients() {
   const { state, dispatch } = useContext(StateContext);
@@ -20,6 +21,10 @@ function Clients() {
       <Typography variant="h4" sx={{ textAlign: "start" }}>
         Clients
       </Typography>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <div>search</div>
+        <CreateNewClient />
+      </Box>
       <Paper sx={{ margin: "auto", marginTop: 3 }}>
         <ClientTable clients={clients} />
       </Paper>
