@@ -4,6 +4,10 @@ export const getClients = (): Promise<IClient[]> => {
   return apiClient.get<IClient[]>("clients");
 };
 
+export const getClientsByName = (name: string): Promise<IClient[]> => {
+  return apiClient.get<IClient[]>(`search/${name}`);
+};
+
 export const createClient = (client: IClient): Promise<void> => {
   return apiClient.post<void>("clients", client);
 };

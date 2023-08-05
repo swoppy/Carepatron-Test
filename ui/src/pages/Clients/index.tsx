@@ -1,10 +1,10 @@
 import { memo, useContext, useEffect } from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Input, Paper, Typography, debounce } from "@mui/material";
 import { StateContext } from "../../store/DataProvider";
 import Page from "../../components/Page";
 import ClientTable from "./ClientTable";
-import { getClients } from "../../services/api";
-import CreateNewClient from "../../components/Dialog";
+import { getClients, getClientsByName } from "../../services/api";
+import CreateNewClientButton from "../../components/Dialog";
 
 function Clients() {
   const { state, dispatch } = useContext(StateContext);
@@ -18,18 +18,50 @@ function Clients() {
 
   return (
     <Page>
-      <Typography variant="h4" sx={{ textAlign: "start" }}>
+      <Typography
+        variant="h4"
+        sx={{
+          fontSize: "1.75rem",
+          fontWeight: 600,
+          textAlign: "start"
+        }}
+      >
         Clients
       </Typography>
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <div>search</div>
-        <CreateNewClient />
+        <SearchInput />
+        <CreateNewClientButton />
       </Box>
       <Paper sx={{ margin: "auto", marginTop: 3 }}>
         <ClientTable clients={clients} />
       </Paper>
     </Page>
   );
+}
+
+function SearchInput() {
+  const { dispatch } = useContext(StateContext);
+
+  const onChangeHandler = debounce((data: string) => {
+    if (data) {
+      getClientsByName(data).then((clients) =>
+        dispatch({ type: 'SEARCH_CLIENT', data: clients})
+      );
+    } else {
+      getClients().then((clients) =>
+      dispatch({ type: "FETCH_ALL_CLIENTS", data: clients })
+    );
+    }
+  }, 700)
+
+  return (
+    <div>
+      <Input
+        placeholder="Search clients..."
+        onChange={(e) => onChangeHandler(e.currentTarget.value)}
+      />
+    </div>
+  )
 }
 
 export default memo(Clients);

@@ -24,7 +24,7 @@ type CreateClientFields = {
   phoneNumber: string
 }
 
-export default function CreateNewClient({ children }: { children?: React.ReactNode }) {
+export default function CreateNewClientButton() {
   const [open, setOpen] = useState(false); 
 
   const steps = ["Personal details", 'Contact details'];
@@ -37,26 +37,34 @@ export default function CreateNewClient({ children }: { children?: React.ReactNo
     handleSubmit,
     watch,
     trigger,
+    reset,
     formState: { errors, isValid },
   } = useForm<CreateClientFields>()
 
   const watchFirstName = watch('firstName');
   const watchLastName = watch('lastName');
 
-  const handleCreateClient: SubmitHandler<CreateClientFields> = (data) => {
-    if (isValid) {
-      dispatch({ type: 'ATTEMPT_OPTIMISCTIC_CLIENT', data: { id: 'xxx-xasd', ...data } })
-      createClient({ id: 'xxx-xasd', ...data })
+  function resetForm() {
+    reset({
+      firstName: '',
+      lastName: '',
+      phoneNumber: '',
+      email: '',
+    });
+    setActiveStep(0);
+  }
 
+  const handleCreateClient: SubmitHandler<CreateClientFields> = async (data) => {
+    if (isValid) {
+      createClient({ id: 'xxx-xasd', ...data })
+      dispatch({ type: 'ATTEMPT_OPTIMISCTIC_CLIENT', data: { id: 'xxx-xasd', ...data } })
+      resetForm();
       setOpen(false);
     }
-    
   }
 
   function handleNext() {
-   
     trigger(['firstName', 'lastName']);
-
     if (watchFirstName && watchLastName) {
       setActiveStep((prev) => prev + 1);
     }
@@ -67,6 +75,16 @@ export default function CreateNewClient({ children }: { children?: React.ReactNo
       <Button
         variant="contained"
         onClick={() => setOpen(true)}
+        sx={{
+          backgroundColor: "#335FFF",
+          fontSize: "0.75rem",
+          lineHeight: "1.25rem",
+          padding: "12px 24px",
+          textTransform: "unset",
+          borderRadius: "0.375rem",
+          fontWeight: 600,
+          boxShadow: 'none',
+        }}
       >
         Create new client
       </Button>
@@ -75,9 +93,15 @@ export default function CreateNewClient({ children }: { children?: React.ReactNo
         onClose={() => setOpen(false)}
         hideBackdrop
         fullWidth
+        maxWidth="xs"
+        sx={{
+          '& .MuiPaper-root': {
+            boxShadow: '1px 7px 44px 11px rgba(217,217,217,0.79)',
+          }
+        }}
       >
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <DialogTitle padding={0}>Create new client</DialogTitle>
+          <DialogTitle padding={0} sx={{ fontSize: "1rem" }}>Create new client</DialogTitle>
           <IconButton
             aria-label="close new client"
             onClick={() => setOpen(false)}
@@ -88,9 +112,15 @@ export default function CreateNewClient({ children }: { children?: React.ReactNo
           
         <DialogContent>
           <Stepper activeStep={activeStep}>
-            {steps.map((label, index) => (
+            {steps.map((label) => (
               <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+                <StepLabel
+                  StepIconProps={{ classes: {
+                    active: 'green'
+                  } }}
+                >
+                  {label}
+                </StepLabel>
               </Step>
             ))} 
           </Stepper>

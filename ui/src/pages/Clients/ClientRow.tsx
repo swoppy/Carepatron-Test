@@ -18,11 +18,11 @@ export default function ClientListItem({ client }: IProps) {
         },
       }}
     >
-      <TableCell component="th" scope="row">
+      <TableCell component="th" scope="row" sx={{ color: "#335FFF", fontWeight: 600, paddingX: "2rem" }}>
         {firstName} {lastName}
       </TableCell>
-      <TableCell>{phoneNumber}</TableCell>
-      <TableCell>{email}</TableCell>
+      <TableCell sx={{ paddingX: "2rem" }}>{phoneNumber}</TableCell>
+      <TableCell sx={{ paddingX: "2rem" }}>{email}</TableCell>
     </TableRow>
   );
 }

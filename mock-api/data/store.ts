@@ -35,3 +35,16 @@ export const listClients = () => {
 		return 0;
 	});
 };
+
+export const listClientsByName = (name: string) => {
+	const list = Object.keys(store.entities).map((id) => store.entities[id]);
+	const searchValueRegex = new RegExp(escapeRegExp(name), 'i');
+
+	return list.filter(
+		(client) => (searchValueRegex.test(client.firstName) || searchValueRegex.test(client.lastName)) && client
+	);
+}
+
+function escapeRegExp(text: string) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}

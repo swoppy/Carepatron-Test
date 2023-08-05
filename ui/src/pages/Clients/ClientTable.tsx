@@ -8,14 +8,20 @@ import Paper from "@mui/material/Paper";
 import ClientRow from "./ClientRow";
 
 export default function BasicTable({ clients }: { clients: IClient[] }) {
+  const headers = ["Name", "Phone", "Email"];
   return (
-    <TableContainer component={Paper} sx={{ maxWidth: "100%" }}>
-      <Table sx={{ minWidth: 400 }} aria-label="simple table">
+    <TableContainer component={Paper} sx={{ maxWidth: "100%", boxShadow: 'none' }}>
+      <Table sx={{ minWidth: 400, boxShadow: 'none' }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Phone number</TableCell>
-            <TableCell>Email</TableCell>
+            {headers.map((header, index) => (
+              <TableCell
+                key={index}
+                sx={{ fontWeight: 600, paddingX: "2rem", fontSize: "0.75rem"  }}
+              >
+                {header}
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -24,7 +30,7 @@ export default function BasicTable({ clients }: { clients: IClient[] }) {
           ))}
           {!clients ||
             (!clients.length && (
-              <TableRow sx={{ padding: 3 }}>
+              <TableRow sx={{ paddingX: "2rem" }}>
                 <TableCell component="th" scope="row">
                   No clients
                 </TableCell>

@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { v4 as uuid } from 'uuid';
 
-import { store, addClient, updateClient, removeClient, listClients } from './data/store';
+import { store, addClient, updateClient, removeClient, listClients, listClientsByName } from './data/store';
 
 dotenv.config();
 
@@ -28,6 +28,11 @@ app.get('/', (req: Request, res: Response) => {
 // get clients
 app.get('/clients', (req: Request, res: Response) => {
 	res.send(listClients());
+});
+
+// get specific client based on name search
+app.get('/search/:clientName', (req: Request, res: Response) => {
+	res.send(listClientsByName(req.params.clientName));
 });
 
 // create client

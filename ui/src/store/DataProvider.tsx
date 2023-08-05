@@ -15,6 +15,7 @@ export const StateContext = createContext<{
 export const ACTIONS = {
   FETCH_ALL_CLIENTS: "FETCH_ALL_CLIENTS",
   ATTEMPT_OPTIMISCTIC_CLIENT: "ATTEMPT_OPTIMISCTIC_CLIENT",
+  SEARCH_CLIENT: 'SEARCH_CLIENT', // client side search
 };
 
 type Action = {
@@ -40,7 +41,12 @@ const reducer = (state: IApplicationState, action: Action) => {
             }
             return 0;
           })
-      }
+      };
+    case ACTIONS.SEARCH_CLIENT:
+      return {
+        ...state,
+        clients: action.data,
+      };
     default:
       return state;
   }
