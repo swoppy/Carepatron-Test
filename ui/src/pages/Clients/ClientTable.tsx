@@ -10,8 +10,14 @@ import ClientRow from "./ClientRow";
 export default function BasicTable({ clients }: { clients: IClient[] }) {
   const headers = ["Name", "Phone", "Email"];
   return (
-    <TableContainer component={Paper} sx={{ maxWidth: "100%", boxShadow: 'none' }}>
-      <Table sx={{ minWidth: 400, boxShadow: 'none' }} aria-label="simple table">
+    <TableContainer
+      component={Paper}
+      sx={{
+        maxWidth: "100%",
+        boxShadow: "-8px 8px 40px -38px rgba(0,0,0,0.77)",
+      }}
+    >
+      <Table sx={{ minWidth: 400 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             {headers.map((header, index) => (
