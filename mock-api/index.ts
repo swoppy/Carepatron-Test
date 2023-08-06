@@ -35,6 +35,11 @@ app.get('/search/:clientName', (req: Request, res: Response) => {
 	res.send(listClientsByName(req.params.clientName));
 });
 
+// remove a client by id
+app.delete('/delete/client/:id', (req: Request, res: Response) => {
+	res.send(removeClient(req.params.id));
+});
+
 // create client
 app.post('/clients', (req: Request, res: Response) => {
 	const client: IClient = { ...req.body, id: new Date().toISOString() };

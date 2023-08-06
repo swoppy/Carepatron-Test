@@ -59,8 +59,8 @@ function CreateNewClientDialog() {
   const handleCreateClient: SubmitHandler<ClientFields> = async (data) => {
     trigger(["email", "phoneNumber"]);
     if (isValid) {
-      createClient({ id: "xxx-xasd", ...data })
-      dispatch({ type: "ATTEMPT_OPTIMISCTIC_CLIENT", data: { id: "xxx-xasd", ...data } })
+      createClient({ id: 'xxx', ...data });
+      dispatch({ type: "ATTEMPT_OPTIMISCTIC_CLIENT", data: { id: "xxx", ...data } })
       resetForm();
       setOpen(false);
     }

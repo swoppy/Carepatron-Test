@@ -14,8 +14,9 @@ export const StateContext = createContext<{
 
 export const ACTIONS = {
   FETCH_ALL_CLIENTS: "FETCH_ALL_CLIENTS",
-  ATTEMPT_OPTIMISCTIC_CLIENT: "ATTEMPT_OPTIMISCTIC_CLIENT",
-  SEARCH_CLIENT: 'SEARCH_CLIENT', // client side search
+  ATTEMPT_OPTIMISCTIC_CLIENT: "ATTEMPT_OPTIMISCTIC_CLIENT", // id is not synched with backend
+  SEARCH_CLIENT: 'SEARCH_CLIENT',
+  OPTIMISCTIC_DELETE_CLIENT: 'OPTIMISCTIC_DELETE_CLIENT',
 };
 
 type Action = {
@@ -47,6 +48,11 @@ const reducer = (state: IApplicationState, action: Action) => {
         ...state,
         clients: action.data,
       };
+    case ACTIONS.OPTIMISCTIC_DELETE_CLIENT:
+      return {
+        ...state,
+        clients: state.clients.filter((client) => client.id !== action.data && client),
+      }
     default:
       return state;
   }

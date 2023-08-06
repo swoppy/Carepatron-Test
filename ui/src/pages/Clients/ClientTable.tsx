@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 import ClientRow from "./ClientRow";
 
 export default function BasicTable({ clients }: { clients: IClient[] }) {
-  const headers = ["Name", "Phone", "Email"];
+  const headers = ["Name", "Phone", "Email", "Actions"];
   return (
     <TableContainer
       component={Paper}
