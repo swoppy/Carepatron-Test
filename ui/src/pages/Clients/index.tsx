@@ -1,5 +1,5 @@
 import { memo, useContext, useEffect } from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import { Paper, Stack, Typography } from "@mui/material";
 import { StateContext } from "../../store/DataProvider";
 import Page from "../../components/Page";
 import ClientTable from "./ClientTable";
@@ -29,10 +29,15 @@ function Clients() {
       >
         Clients
       </Typography>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mt={4}>
+      <Stack
+        direction={{ xs: "column", md: "row"}}
+        mt={4}
+        justifyContent="space-between"
+        gap={2}
+      >
         <SearchInput />
         <CreateNewClientDialog />
-      </Box>
+      </Stack>
       <Paper
         sx={{
           margin: "auto",

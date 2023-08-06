@@ -10,14 +10,15 @@ import {
   Step,
   StepLabel,
   Stepper,
-  TextField
+  TextField,
+  useMediaQuery
 } from "@mui/material";
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useContext, useState } from "react";
 import { createClient } from "../../services/api";
 import { StateContext } from "../../store/DataProvider";
 
-type CreateClientFields = {
+type ClientFields = {
   firstName: string
   lastName: string
   email: string
@@ -30,7 +31,8 @@ function CreateNewClientDialog() {
   const steps = ["Personal details", "Contact details"];
   const [activeStep, setActiveStep] = useState(0);
 
-  const { dispatch } = useContext(StateContext)
+  const { dispatch } = useContext(StateContext);
+  const fullScreen = useMediaQuery('@media (max-width: 640px)');
 
   const {
     register,
@@ -39,7 +41,7 @@ function CreateNewClientDialog() {
     trigger,
     reset,
     formState: { errors, isValid },
-  } = useForm<CreateClientFields>()
+  } = useForm<ClientFields>();
 
   const watchFirstName = watch("firstName");
   const watchLastName = watch("lastName");
@@ -54,7 +56,7 @@ function CreateNewClientDialog() {
     setActiveStep(0);
   }
 
-  const handleCreateClient: SubmitHandler<CreateClientFields> = async (data) => {
+  const handleCreateClient: SubmitHandler<ClientFields> = async (data) => {
     trigger(["email", "phoneNumber"]);
     if (isValid) {
       createClient({ id: "xxx-xasd", ...data })
@@ -99,12 +101,14 @@ function CreateNewClientDialog() {
         onClose={() => setOpen(false)}
         hideBackdrop
         fullWidth
+        fullScreen={fullScreen}
         maxWidth="xs"
         sx={{
           '& .MuiPaper-root': {
             boxShadow: "1px 7px 44px 11px rgba(217,217,217,0.79)",
           },
-          marginBottom: '11rem'
+          marginBottom: '11rem',
+          ...fullScreen && { height: '100%' }
         }}
       >
         <Box display="flex" justifyContent="space-between" alignItems="center" pt={3} px={3}>

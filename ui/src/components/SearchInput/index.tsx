@@ -37,6 +37,7 @@ export function SearchInput() {
           lineHeight: "1.25rem",
           width: '14rem',
           "& fieldset": { border: 'none' },
+          flexGrow: 1,
         }}
       />
       <SearchIcon
